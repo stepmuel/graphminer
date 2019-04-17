@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/jasny-bootstrap.min.css" rel="stylesheet">
+  <title>GraphMiner</title>
+  <style>
+    body {
+    	padding: 25px;
+    }
+    .btn-gray {
+      background: #eee;
+    }
+    .file-name {
+      /* workaround since ellipsis don't really seem to work */
+      overflow: hidden;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3" style="padding: 0; background-color: none">
+				<h1>GraphMiner</h1>
+				<p><a href="https://github.com/stepmuel/graphminer">Documentation</a></p>
+				<div class="fileinput fileinput-new input-group" data-provides="fileinput">
+				  <div class="form-control file-name" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename" id="input-name"></span></div>
+				  <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><input type="file" id="input" name="..."></span>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">Nodes</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="nodeFilter">Filter</label>
+							<input type="text" onChange="updateGraph()" class="form-control" id="nodeFilter">
+						</div>
+						<div class="form-group">
+							<label for="nodeSorter">Sort</label>
+							<input type="text" onChange="updateGraph()" class="form-control" id="nodeSorter">
+						</div>
+						<div class="form-group">
+							<label for="nodeLabel">Label</label>
+							<input type="text" onChange="updateGraph()" class="form-control" id="nodeLabel">
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">Edges</div>
+					<div class="panel-body" id="edgeList" style="padding-top: 0px; padding-bottom: 0px">
+						<p>loading…</p>
+					</div>
+				</div>
+				<div class="panel panel-default" id="edgeOptionPanel" style="display: none">
+					<div class="panel-heading">Edge Options</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="edgeFilter">Filter</label>
+							<input type="text" onChange="updateGraph()" class="form-control" id="edgeFilter">
+						</div>
+						<div class="form-group">
+							<label for="edgeWidth">Width</label>
+							<input type="text" onChange="updateGraph()" class="form-control" id="edgeWidth">
+						</div>
+						<div class="pull-right">
+							<input class="btn btn-default btn-xs" type="button" onclick="preset(this)" id="edge-sumFilter" value="sumFilter">
+							<input class="btn btn-default btn-xs" type="button" onclick="preset(this)" id="edge-sumSort" value="sumSort">
+							<input class="btn btn-default btn-xs" type="button" onclick="preset(this)" id="edge-clusterSort" value="clusterSort">
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+            Config
+            
+            <div class="dropdown pull-right">
+              <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Preset <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" id="presetList"></ul>
+            </div>
+          </div>
+					<div class="panel-body">
+            <input type="text" onChange="loadConfig(true, JSON.parse(this.value || null))" class="form-control" id="config">
+					</div>
+				</div>
+        <div class="input-group">
+          <input type="text" id="filename" class="form-control" placeholder="Filename">
+          <span class="input-group-btn">
+            <button class="btn btn-default btn-gray" type="button" onclick="download(this)" id="download">Download SVG</button>
+          </span>
+        </div>
+			</div>
+			<div class="col-md-9" style="background-color: none">
+				<svg id="graph" class="svg-content img-responsive" preserveAspectRatio="xMidYMid" width="100%" height="100%">
+					<style type="text/css" ><![CDATA[
+					.node {
+						font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+					}
+					.link {
+						stroke-opacity: .1;
+						fill: none;
+					}
+					]]></style>
+				</svg>
+			</div>
+		</div>
+	</div>
+  <script src="js/d3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/graph.js" type="text/javascript" charset="utf-8"></script>
+  <!-- jquery and bootstrap.js currently only used for preset dropdown -->
+  <script src="js/jquery-3.4.0.slim.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    window.onhashchange(); // Init
+  </script>
+</body>
+</html>
