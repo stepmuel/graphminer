@@ -11,7 +11,12 @@ var demoConfig = {
   preset: "overview"
 };
 
+var ignoreHashChange = false;
 window.onhashchange = function() {
+  if (ignoreHashChange) {
+    ignoreHashChange = false;
+    return;
+  }
   var params = new URLSearchParams(window.location.hash.substring(1));
   var conf = params.has("config") ? JSON.parse(params.get("config")) : demoConfig;
   loadConfig(true, conf);
@@ -280,6 +285,7 @@ var updateConfig = function() {
   // Update config panel json
   var configString = JSON.stringify(config);
   d3.select("#config").property("value", configString);
+  ignoreHashChange = true;
   // Update hash (URLSearchParams escapes too many characters, subjectively)
   // var params = new URLSearchParams(window.location.hash);
   // params.set("config", configString);
