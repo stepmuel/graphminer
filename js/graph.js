@@ -169,6 +169,7 @@ function handleFiles() {
     delete config.dataURL
     loadConfig(false);
     setGraphData(data);
+    updateGraph();
     document.getElementById("input-name").innerHTML = file.name;
     inputElement.value = ''; // trigger change when re-adding same file
   }
@@ -217,7 +218,6 @@ var setGraphData = function(data) {
       .attr("id", "edgeOptionButton-"+edgeKey)
       .attr("value", "options");
   });
-  updateGraph();
   
   // Add presets to UI
   presets = data.preset || {};
@@ -296,6 +296,17 @@ var updateConfig = function() {
 var loadConfig = function(doUpdate, newConfig) {
   if (newConfig === undefined) newConfig = config;
   if (!newConfig) newConfig = {};
+  if (newConfig.dataURL && config.dataURL !== newConfig.dataURL) {
+    d3.json(newConfig.dataURL, function(error, data) {
+      if (error) return console.warn(error);
+      config.dataURL = newConfig.dataURL;
+      setGraphData(data);
+      loadConfig(false, newConfig);
+      updateGraph();
+      document.getElementById("input-name").innerHTML = config.dataURL;
+    });
+    return;
+  }
   if (newConfig.preset) {
     var key = newConfig.preset;
     var preset = defaultPresets[key] || presets[key];
@@ -304,8 +315,9 @@ var loadConfig = function(doUpdate, newConfig) {
     if (config.dataURL && !newConfig.dataURL) {
       newConfig.dataURL = config.dataURL;
     }
+    loadConfig(doUpdate, newConfig);
+    return;
   }
-  var dataURLChanged = config.dataURL !== newConfig.dataURL;
   config = newConfig;
   var setConfigValue = function(id, value) {
     var v = value === undefined ? '' : value;
@@ -325,13 +337,6 @@ var loadConfig = function(doUpdate, newConfig) {
     setConfigValue("edgeWidth", edgeConf.width);
   }
   if (doUpdate) updateGraph();
-  if (dataURLChanged && config.dataURL) {
-    d3.json(config.dataURL, function(error, data) {
-      if (error) return console.warn(error);
-      setGraphData(data);
-      document.getElementById("input-name").innerHTML = config.dataURL;
-    });
-  }
   d3.select("#config").property("value", JSON.stringify(config));
 }
 
