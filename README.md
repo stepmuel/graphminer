@@ -1,6 +1,6 @@
-GraphMiner enables interactive exploration of player weighted graphs. Several graphs can be visualized at once. The nodes (vertices) can be filtered and sorted using JavaScript expressions. Edges can be filtered and their width set by custom JavaScript expressions also.
+GraphMiner enables interactive exploration of weighted graphs. Multiple graphs can be visualized simultaneously. JavaScript expressions are used to sort and filter nodes (vertices) and edges.
 
-GraphMiner was developed as part of the [HeapCraft project](https://heapcraft.net/). The project site features an [interactive demo](https://heapcraft.net/graphminer/) of GraphMiner with Minecraft player data.
+GraphMiner was developed as part of the [HeapCraft project](https://heapcraft.net/). The project site features an interactive demos of GraphMiner with Minecraft player data ([demo1](https://heapcraft.net/graphminer/), [demo2](https://heapcraft.net/graphminer/#config=%7B%22dataURL%22%3A%22data%2Fgraph2.json%22%2C%22preset%22%3A%22default%22%7D)).
 
 ![GraphMiner Screenshot](https://heapcraft.net/graphminer/screenshot.png)
 
